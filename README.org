@@ -1,0 +1,15 @@
+
+To develop this install a separate Spack instance:
+
+#+begin_src bash
+  mkdir -p ./.spack-install
+  git clone -b v0.17.1 -c feature.manyFiles=true https://github.com/spack/spack.git ./.spack-install/spack
+  spack="./.spack-install/spack/bin/spack"
+  ${spack} repo add "."
+#+end_src
+
+When you are done you can remove it:
+
+#+begin_src bash
+  ${spack} repo rm snailpacks
+#+end_src
