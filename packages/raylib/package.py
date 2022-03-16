@@ -59,21 +59,19 @@ class Raylib(CMakePackage):
     variant("shared", default=True, description="Build shared libraries")
 
     # TODO: there are lots of variants for raylib that we could add.
-
     # variant("audio", default=True, description="Build with audio support")
-
-    # FIXME: Add dependencies if required.
 
     depends_on('libxrandr', when='platform=linux')
     depends_on('libxi', when='platform=linux')
     depends_on('libx11', when='platform=linux')
     # depends_on('xorg-server', when='platform=linux')
-    depends_on('mesa', when='platform=linux')
+    depends_on('mesa -llvm', when='platform=linux')
     depends_on('mesa-glu', when='platform=linux')
     depends_on('alsa-lib', when='platform=linux')
 
-    # if we are building against external GLFW
-    depends_on('glfw ^font-util fonts=encodings,font-alias', when='external_glfw=ON')
+    # if we are building against external GLFW, only install a few fonts
+    depends_on('glfw ^font-util fonts=encodings,font-alias',
+               when='external_glfw=ON')
 
     def cmake_args(self):
 
