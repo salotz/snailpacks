@@ -28,7 +28,7 @@ import shutil
 class ScopesRaylib(Package):
     """FIXME: Put a proper description of your package here."""
 
-    homepage = "https://www.example.com"
+    homepage = "https://github.com/salotz/raylib-scopes"
     url      = "https://github.com/salotz/raylib-scopes/archive/refs/tags/v0.1.tar.gz"
 
     maintainers = ['salotz']
@@ -36,7 +36,10 @@ class ScopesRaylib(Package):
 
     version('0.1', sha256='cdd6f2ffb60357cc37ad6e680bb4cc8e107235c5fdd6fb5c2591f311dd348bfa')
 
-    # depends_on('raylib')
+    depends_on('raylib')
+
+    # TODO
+    # depends_on('scopes')
 
     @property
     def scopes_name(self):
