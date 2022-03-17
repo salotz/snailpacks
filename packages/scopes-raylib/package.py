@@ -3,23 +3,6 @@
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
-# ----------------------------------------------------------------------------
-# If you submit this package back to Spack as a pull request,
-# please first remove this boilerplate and all FIXME comments.
-#
-# This is a template package file for Spack.  We've put "FIXME"
-# next to all the things you'll want to change. Once you've handled
-# them, you can save this file and test your package like this:
-#
-#     spack install raylib-scopes
-#
-# You can edit this file again by typing:
-#
-#     spack edit raylib-scopes
-#
-# See the Spack documentation for more information on packaging.
-# ----------------------------------------------------------------------------
-
 from spack import *
 
 import shutil
@@ -34,7 +17,10 @@ class ScopesRaylib(Package):
     maintainers = ['salotz']
 
 
-    version('0.1', sha256='cdd6f2ffb60357cc37ad6e680bb4cc8e107235c5fdd6fb5c2591f311dd348bfa')
+    version('0.1',
+            sha256='cdd6f2ffb60357cc37ad6e680bb4cc8e107235c5fdd6fb5c2591f311dd348bfa')
+
+    extends('scopes')
 
     depends_on('raylib')
 
@@ -47,7 +33,4 @@ class ScopesRaylib(Package):
 
     def install(self, spec, prefix):
 
-        shutil.copytree('src', f"{prefix}/scopes/{self.scopes_name}")
-
-        print(prefix)
-        which('ls')(prefix)
+        shutil.copytree('src', f"{prefix}/lib/scopes/packages/{self.scopes_name}")
