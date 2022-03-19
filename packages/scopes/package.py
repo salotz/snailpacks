@@ -1,6 +1,8 @@
 
 from spack import *
 
+import os
+
 class Scopes(Package):
     """Scopes programming language."""
 
@@ -13,14 +15,23 @@ class Scopes(Package):
 
     extendable = True
 
-    # TODO
-    # depends('llvm')
-    # depends('spirv-tools')
-    # depends('spirv-headers')
+    depends_on('genie', type='build')
 
-    # depends('googletest', type=('build'))
-    # depends('effcee', type=('build'))
-    # depends('re2', type=('build'))
+    # we need this version of LLVM and to explicitly build for all
+    # targets
+    depends_on('llvm@12.0.1 +all_targets')
+    # TODO: need the headers for this
+    # depends_on('spirv-tools')
+    depends_on('spirv-cross')
 
     def install(self, spec, prefix):
-        pass
+
+        # TODO: link the llvm folder to the location expected by scopes
+        # os.symlink()
+
+        # run the genie project generator
+        genie = which('genie')
+
+        genie('gmake')
+
+        make("-C", "build")
