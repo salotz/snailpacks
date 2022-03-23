@@ -1,9 +1,8 @@
-
 from spack import *
 
 
 class Raylib(CMakePackage):
-    """FIXME: Put a proper description of your package here."""
+    """A simple and easy-to-use library to enjoy videogames programming."""
 
     homepage = "https://www.raylib.com/"
     url      = "https://github.com/raysan5/raylib/archive/refs/tags/4.0.0.tar.gz"
@@ -34,10 +33,8 @@ class Raylib(CMakePackage):
 
     # we set this to ON for spack since we can control dependencies
     variant("external_glfw",
-            default='ON',
+            default=True,
             description="Link raylib against system GLFW instead of embedded one",
-            values=('ON', 'OFF', 'IF_POSSIBLE',),
-            multi=False,
             )
 
     variant("opengl_version",
@@ -67,7 +64,7 @@ class Raylib(CMakePackage):
 
     # if we are building against external GLFW, only install a few fonts
     depends_on('glfw ^font-util fonts=encodings,font-alias',
-               when='external_glfw=ON')
+               when='+external_glfw')
 
     def cmake_args(self):
 
