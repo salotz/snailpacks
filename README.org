@@ -66,7 +66,7 @@ installation:
 You should be able to see info on Scopes now:
 
 #+begin_src sh
-  spack info scopes
+  spack install scopes
 #+end_src
 
 
