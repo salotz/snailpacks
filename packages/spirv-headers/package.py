@@ -3,22 +3,19 @@ from spack import *
 from pathlib import Path
 import shutil as sh
 
-class SpirvCross(CMakePackage):
-    """SPIRV-Cross is a practical tool and library for performing
-    reflection on SPIR-V and disassembling SPIR-V back to high level
-    languages.
-    """
+class SpirvHeaders(CMakePackage):
+    """Machine-readable files for the SPIR-V Registry."""
 
-    homepage = "https://github.com/KhronosGroup/SPIRV-Cross"
-    url      = "https://github.com/KhronosGroup/SPIRV-Cross/archive/refs/tags/sdk-1.3.204.1.tar.gz"
+    homepage = "https://github.com/KhronosGroup/SPIRV-Headers"
+    url = "https://github.com/KhronosGroup/SPIRV-Headers/archive/refs/tags/sdk-1.3.204.1.tar.gz"
 
     maintainers = ['salotz',]
 
-    version('1.3.204.1', sha256='8608082a59ec91bd3d8ec69180feca3faa96af92517eb25dd8716210607a7633')
+    version('1.3.204.1', sha256='262864053968c217d45b24b89044a7736a32361894743dd6cfe788df258c746c')
 
     def install(self, spec, prefix):
 
-        # do the normal CMake install
+        # do the normal CMake installation
         super().install(spec, prefix)
 
         # then make a copy of the repo into share because
@@ -31,4 +28,3 @@ class SpirvCross(CMakePackage):
             ".",
             prefix_path / "share" / "repo",
         )
-

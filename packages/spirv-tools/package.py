@@ -1,7 +1,10 @@
 from spack import *
 
+from pathlib import Path
+
 class SpirvTools(CMakePackage):
-    """The SPIR-V Tools project provides an API and commands for processing SPIR-V modules."""
+    """The SPIR-V Tools project provides an API and commands for
+    processing SPIR-V modules."""
 
     homepage = "https://github.com/KhronosGroup/SPIRV-Tools"
     url      = "https://github.com/KhronosGroup/SPIRV-Tools/archive/refs/tags/v2022.1.tar.gz"
@@ -14,25 +17,23 @@ class SpirvTools(CMakePackage):
     version('2020.4', sha256='d6377d2febe831eb78e84593a10d242a4fd52cb12174133151cb48801abdc6d2')
     version('2019.2', sha256='1fde9d2a0df920a401441cd77253fc7b3b9ab0578eabda8caaaceaa6c7638440')
 
-    # TODO:
-    # depends_on('spirv-headers')
+    depends_on('spirv-headers')
 
-    # NOTE: optional
-    # depends_on('effcee', type='test')
-    # depends_on('googletest', type='test')
+    def cmake(self, spec, prefix):
 
-    def cmake_args(self):
-        args = [
-            # # TODO
-            # "-DSPIRV_BUILD_FUZZER=OFF",
-            # # TODO
-            # "-DSPIRV_COLOR_TERMINAL=ON",
-            # # TODO
-            # "-DSPIRV_SKIP_TESTS=ON",
-            # # TODO
-            # "-DSPIRV_SKIP_EXECUTABLES=OFF",
-            # # "-DSPIRV_USE_SANITIZER=",
-            # "-DSPIRV_WARN_EVERYTHING=OFF",
-            # "-DSPIRV_WERROR=ON",
-        ]
-        return args
+        # we first have to link in the spirv-headers appropriately
+
+        prefix_path = Path(prefix)
+
+        headers_prefix = Path(spec['spirv-headers'].prefix)
+
+        # the full "repo" release is kept in this share folder
+        src_path = headers_prefix / "share" / "repo"
+
+        # needs to be linked here for proper compilation of spirv-tools
+        dest_path = Path(".") / "external" / "spirv-headers"
+
+        dest_path.symlink_to(src_path)
+
+        # then run the normal CMake project generation
+        super().cmake(spec, prefix)
