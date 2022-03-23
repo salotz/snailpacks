@@ -1,4 +1,177 @@
 
+* Snailpacks
+
+Snailpacks is an independently maintained repository of [[https://spack.io/][Spack]] recipes
+oriented towards development of multimedia & gaming applications.
+
+It also attempts to provide packages for the [[http://scopes.rocks][Scopes]] programming
+language; both the compiler and language specific packages (extensions
+in Spack parlance).
+
+** Getting Started
+
+*** Installing Spack
+
+To leverage snailpacks, you will need to install Spack itself:
+[[https://spack.readthedocs.io/en/latest/getting_started.html][instructions]].
+
+TL;DR:
+
+#+begin_src sh
+  git clone -b v0.17.1 -c feature.manyFiles=true https://github.com/spack/spack.git ~/spack
+#+end_src
+
+Then in your ~.profile~ add:
+
+#+begin_src sh
+  . ~/spack/share/spack/setup-env.sh
+#+end_src
+
+You should then be able to install things:
+
+#+begin_src sh
+  spack install unzip
+  spack load unzip
+  which unzip
+#+end_src
+
+You should see that you are using the unzip installed by spack:
+
+#+begin_example
+  ~/spack/opt/spack/linux-ubuntu20.04-skylake/gcc-9.3.0/unzip-6.0-6gr5zye3yfrlcl23igrdasovl6wsdpyw/bin/unzip
+#+end_example
+
+This is a recipe that comes bundled with Spack itself.
+
+So if you try to see info about the Scopes recipe it will be missing:
+
+#+begin_src sh
+  spack info scopes
+#+end_src
+
+*** Installing Snailpacks
+
+Snailpacks leverages the thousands of packages in the builtin
+repository, but adds and patches new recipes.
+
+Installing snailpacks means adding it as a 'repo' to your spack
+installation:
+
+#+begin_src sh
+  mkdir -p ~/.spack/repos
+  git clone git@github.com:salotz/snailpacks.git ~/.spack/repos/snailpacks
+  spack repo add ~/.spack/repos/snailpacks
+#+end_src
+
+You should be able to see info on Scopes now:
+
+#+begin_src sh
+  spack info scopes
+#+end_src
+
+
+*** Scopes Programming
+
+**** Compiling & Installing Scopes
+
+Installing and using Scopes with Snailpacks is one of the primary use
+cases so we will discuss it here.
+
+You should be able to just install Scopes with:
+
+#+begin_src sh
+  spack install scopes
+#+end_src
+
+Just be aware that this will compile LLVM (and all of its
+dependencies) from scratch. This will take a while (a few hours on a
+modern laptop), and it will use all of the cores on your machine.
+
+However, once you do this you will not need to recompile LLVM (or any
+other dependencies) unless you bump the version of LLVM. Currently the
+version is fixed to a particular LLVM version, however this will
+likely change as Scopes matures.
+
+The other thing to be aware of is that currently (as of 2022-03-23)
+the Scopes recipe is always built from the tip of the repository.
+
+To get the latest you will need to remove the source cache and reinstall:
+
+#+begin_src sh
+  rm -rf ~/resources/spack/var/spack/cache/_source-cache/hg/~duangle/scopes
+  spack uninstall scopes
+  spack install scopes
+#+end_src
+
+In the near future there should be some stable versions that get
+tagged and only testers and those wanting the bleeding edge will need
+to build from tip:
+
+#+begin_src sh
+  spack install scopes@tip
+#+end_src
+
+**** Setting Up a Project
+
+Scopes allows for importing of modules in Scopes itself, as well as
+loading headers and library objects of compiled C code.
+
+To manage this for a project we recommend setting up a virtual
+environment with Spack and then writing your ~_project.sc~ file to
+always use the spack env prefix onto the paths.
+
+First write a ~spack.yaml~ file with the dependencies that you want
+(you can also use the `spack add` API):
+
+#+begin_src yaml
+  spack:
+    specs:
+    - scopes
+    view: true
+    concretization: together  
+#+end_src
+
+Then run these commands:
+
+#+begin_src sh
+  spack env create -d .
+  spacktivate .
+  spack install
+#+end_src
+
+You will see a folder: ~.spack-env/view~ which is a "view" of the
+environment which contains a unixy prefix with all the dependencies
+symlinked in.
+
+Then you can simply have a ~_project.sc~ file in the same directory:
+
+#+begin_src scopes
+  let spack-path = "/.spack-env/view"
+
+  'define-symbol package 'path
+      cons
+          .. module-dir spack-path "/lib/scopes/packages/?.sc"
+          .. module-dir spack-path "/lib/scopes/packages/?/init.sc"
+          package.path
+
+  'define-symbol package 'library-path
+      cons
+          .. module-dir spack-path "/lib"
+          package.library-path
+
+  'define-symbol package 'include-path
+      cons
+          .. module-dir spack-path "/include"
+          package.include-path
+#+end_src
+
+Now anything run with this project file, will automatically find all
+of libraries and headers.
+
+See the ~examples/scopes~ folder.
+
+** Developing Recipes
+
 To develop this install a separate Spack instance:
 
 #+begin_src bash
