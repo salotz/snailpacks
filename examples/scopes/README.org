@@ -1,0 +1,14 @@
+
+Set up the environment:
+
+#+begin_src sh
+  spack env create -d .
+  spacktivate .
+  spack install
+#+end_src
+
+Then run the example:
+
+#+begin_src sh
+  scopes -p main.sc
+#+end_src
