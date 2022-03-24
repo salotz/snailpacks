@@ -21,9 +21,12 @@ class ScopesRaylib(Package):
     depends_on('raylib')
 
     @property
-    def scopes_name(self):
+    def scopes_package_name(self):
         return '-'.join(self._name.split('-')[1:])
 
     def install(self, spec, prefix):
 
-        shutil.copytree('src', f"{prefix}/lib/scopes/packages/{self.scopes_name}")
+        shutil.copytree(
+            f'src/{self.scopes_package_name}',
+            f"{prefix}/lib/scopes/packages/{self.scopes_package_name}",
+        )
