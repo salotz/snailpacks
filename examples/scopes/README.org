@@ -3,12 +3,13 @@ Set up the environment:
 
 #+begin_src sh
   spack env create -d .
-  spacktivate .
-  spack install
+  spack -e . install
+  spacktivate -p .
 #+end_src
 
 Then run the example:
 
 #+begin_src sh
-  scopes -e main.sc
+  scopes -e demo/main.sc
+  scopes -e -m main.sc
 #+end_src

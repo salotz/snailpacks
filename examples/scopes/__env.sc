@@ -4,6 +4,10 @@ let spack-path = "/.spack-env/view"
 
     module-search-path =
         cons
+            # the current module in development
+            .. module-dir "/demo/?.sc"
+            .. module-dir "/demo/?/init.sc"
+            # spack installed packages
             .. module-dir spack-path "/lib/scopes/packages/?.sc"
             .. module-dir spack-path "/lib/scopes/packages/?/init.sc"
             __env.module-search-path
