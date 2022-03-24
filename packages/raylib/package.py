@@ -62,8 +62,12 @@ class Raylib(CMakePackage):
     depends_on('mesa-glu', when='platform=linux')
     depends_on('alsa-lib', when='platform=linux')
 
-    # if we are building against external GLFW, only install a few fonts
+    # if we are building against external GLFW
     depends_on('glfw ^font-util fonts=encodings,font-alias',
+               when='+external_glfw')
+
+    # only install a few fonts in the GLFW dependency
+    depends_on('font-util fonts=encodings,font-alias',
                when='+external_glfw')
 
     def cmake_args(self):
