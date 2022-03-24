@@ -63,7 +63,7 @@ class Raylib(CMakePackage):
     depends_on('alsa-lib', when='platform=linux')
 
     # if we are building against external GLFW
-    depends_on('glfw ^font-util fonts=encodings,font-alias',
+    depends_on('glfw',
                when='+external_glfw')
 
     # only install a few fonts in the GLFW dependency
