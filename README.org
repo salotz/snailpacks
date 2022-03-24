@@ -117,7 +117,7 @@ Scopes allows for importing of modules in Scopes itself, as well as
 loading headers and library objects of compiled C code.
 
 To manage this for a project we recommend setting up a virtual
-environment with Spack and then writing your ~_project.sc~ file to
+environment with Spack and then writing your ~__env.sc~ file to
 always use the spack env prefix onto the paths.
 
 First write a ~spack.yaml~ file with the dependencies that you want
@@ -143,26 +143,28 @@ You will see a folder: ~.spack-env/view~ which is a "view" of the
 environment which contains a unixy prefix with all the dependencies
 symlinked in.
 
-Then you can simply have a ~_project.sc~ file in the same directory:
+Then you can simply have a ~__env.sc~ file in the same directory:
 
 #+begin_src scopes
   let spack-path = "/.spack-env/view"
 
-  'define-symbol package 'path
-      cons
-          .. module-dir spack-path "/lib/scopes/packages/?.sc"
-          .. module-dir spack-path "/lib/scopes/packages/?/init.sc"
-          package.path
+  'bind-symbols __env
 
-  'define-symbol package 'library-path
-      cons
-          .. module-dir spack-path "/lib"
-          package.library-path
+      module-search-path =
+          cons
+              .. module-dir spack-path "/lib/scopes/packages/?.sc"
+              .. module-dir spack-path "/lib/scopes/packages/?/init.sc"
+              __env.module-search-path
 
-  'define-symbol package 'include-path
-      cons
-          .. module-dir spack-path "/include"
-          package.include-path
+      include-search-path =
+          cons
+              .. module-dir spack-path "/include"
+              __env.include-search-path
+
+      library-search-path =
+          cons
+              .. module-dir spack-path "/lib"
+              __env.library-search-path
 #+end_src
 
 Now anything run with this project file, will automatically find all

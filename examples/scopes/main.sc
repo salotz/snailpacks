@@ -1,4 +1,4 @@
 
-print "package.path" package.path
-print "package.library-path" package.library-path
-print "package.include-path" package.include-path
+print "__env.module-search-path" __env.module-search-path
+print "__env.library-search-path" __env.library-search-path
+print "__env.include-search-path" __env.include-search-path

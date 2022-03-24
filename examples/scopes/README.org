@@ -10,5 +10,5 @@ Set up the environment:
 Then run the example:
 
 #+begin_src sh
-  scopes -p main.sc
+  scopes -e main.sc
 #+end_src
