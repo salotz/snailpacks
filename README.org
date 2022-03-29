@@ -123,8 +123,8 @@ Just be aware that this will compile LLVM (and all of its
 dependencies) from scratch. This will take a while (a few hours on a
 modern laptop), and it will use all of the cores on your machine.
 
-If you want to avoid compiling LLVM see the section: [[*Using a prebuilt LLVM compiler][Using a prebuilt
-LLVM compiler]]
+If you want to avoid compiling LLVM see the section: Using a prebuilt
+LLVM compiler
 
 However, once you do this you will not need to recompile LLVM (or any
 other dependencies) unless you bump the version of LLVM. Currently the
@@ -151,9 +151,6 @@ to build from tip:
 #+end_src
 
 ***** Using a prebuilt LLVM compiler
-:BACKLINKS:
-[2022-03-28 Mon 22:11] <- [[*Compiling & Installing Scopes][Compiling & Installing Scopes]]
-:END:
 
 Compiling LLVM can take a long time and may flat-out fail on machines
 with a small amount of RAM. To avoid this, if you can find a prebuilt
