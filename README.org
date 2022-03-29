@@ -68,6 +68,23 @@ To add it to your configuration run:
 This should reduce the need to compile some things, but it won't
 completely eliminate it.
 
+**** Externals
+
+If you would like you can have Spack use so-called "external"
+packages. These are basically just things you already have on your
+system and will prevent Spack from recompiling them if the exact
+version found is the same.
+
+#+begin_src sh
+  spack external find
+#+end_src
+
+This is usually fine for build dependencies, but runtime you should
+just stick with the Spack built ones.
+
+There is one important external, LLVM, which will be discussed
+elsewhere as it is quite painful to build.
+
 *** Installing Snailpacks
 
 Snailpacks leverages the thousands of packages in the builtin
@@ -106,6 +123,9 @@ Just be aware that this will compile LLVM (and all of its
 dependencies) from scratch. This will take a while (a few hours on a
 modern laptop), and it will use all of the cores on your machine.
 
+If you want to avoid compiling LLVM see the section: [[*Using a prebuilt LLVM compiler][Using a prebuilt
+LLVM compiler]]
+
 However, once you do this you will not need to recompile LLVM (or any
 other dependencies) unless you bump the version of LLVM. Currently the
 version is fixed to a particular LLVM version, however this will
@@ -129,6 +149,49 @@ to build from tip:
 #+begin_src sh
   spack install scopes@tip
 #+end_src
+
+***** Using a prebuilt LLVM compiler
+:BACKLINKS:
+[2022-03-28 Mon 22:11] <- [[*Compiling & Installing Scopes][Compiling & Installing Scopes]]
+:END:
+
+Compiling LLVM can take a long time and may flat-out fail on machines
+with a small amount of RAM. To avoid this, if you can find a prebuilt
+version of LLVM, download it, and register it as an "external" in
+Spack you just have that used instead of building from scratch.
+
+This example is for the Ubuntu Linux build.
+
+First download and unpack the binary and packages to a prefix folder:
+
+#+begin_src sh
+  clang_version='12.0.1'
+  clang_filename="clang+llvm-${clang_version}-x86_64-linux-gnu-ubuntu-16.04"
+  clang_url="https://github.com/llvm/llvm-project/releases/download/llvmorg-${clang_version}/${clang_filename}.tar.xz"
+  sudo mkdir -p /opt/llvm
+  cd /opt/llvm
+  sudo wget "${clang_url}"
+  sudo tar -xvf ${clang_filename}.tar.xz
+  sudo rm ${clang_filename}.tar.xz
+#+end_src
+
+Then add this to the ~packages.yaml~ (most likely ~$HOME/.spack/packages.yaml~):
+
+#+begin_src yaml
+  packages:
+    llvm:
+      externals:
+      - spec: llvm@12.0.1
+        prefix: /opt/llvm/clang+llvm-12.0.1-x86_64-linux-gnu-ubuntu-
+#+end_src
+
+You should be able to install LLVM or Scopes and get a message like:
+
+#+begin_example
+[+] /opt/llvm/clang+llvm-12.0.1-x86_64-linux-gnu-ubuntu- (external llvm-12.0.1-zqkt7ur7hnnbquw3w7oobhcskoxvada6)
+#+end_example
+
+Indicating its using the external one.
 
 **** Setting Up a Project
 
@@ -190,6 +253,8 @@ Now anything run with this project file, will automatically find all
 of libraries and headers.
 
 See the ~examples/scopes~ folder.
+
+
 
 ** Developing Recipes
 
