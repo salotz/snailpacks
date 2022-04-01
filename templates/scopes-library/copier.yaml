@@ -21,4 +21,4 @@ homepage:
   default: "{{git_url}}"
 
 url:
-  default: "{{git_url}}/archives/refs/tags/{{initial_version}}.tar.gz"
+  default: "{{git_url}}/archive/refs/tags/v{{initial_version}}.tar.gz"
