@@ -1,0 +1,24 @@
+package_name:
+  type: str
+
+# TODO: do this automatically in Jinja from the package name
+class_name:
+  type: str
+
+description:
+  type: str
+  
+initial_version:
+  default: "0.1"
+
+maintainer:
+  default: salotz
+
+git_url:
+  default: "https://github.com/{{maintainer}}/{{package_name}}"
+
+homepage:
+  default: "{{git_url}}"
+
+url:
+  default: "{{git_url}}/archives/refs/tags/{{initial_version}}.tar.gz"
