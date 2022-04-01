@@ -1,4 +1,3 @@
-
 from spack import *
 
 import os
@@ -10,18 +9,22 @@ class Scopes(Package):
 
     homepage = "http://scopes.rocks"
     hg = "https://hg.sr.ht/~duangle/scopes"
+    url = "https://hg.sr.ht/~duangle/scopes/archive/release-0.17.tar.gz"
 
     maintainers = ['salotz']
 
     version('tip', revision='tip')
+    version('0.17',
+            preferred=True,
+            sha256='ca2f9c5248138fc4351a65b3c0e1c79cc3b41f64e43bd2b6b1d8b9590286fb32',
+            )
 
     extendable = True
 
     depends_on('genie', type='build')
-    
-    # we need this version of LLVM and to explicitly build for all
-    # targets
-    depends_on('llvm@12.0.1 +all_targets')
+
+    depends_on('llvm@13.0.1 +all_targets', when='@tip')
+    depends_on('llvm@12.0.1 +all_targets', when='@0.17')
 
     depends_on('spirv-tools')
     depends_on('spirv-cross')
