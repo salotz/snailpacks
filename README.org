@@ -17,7 +17,7 @@ To leverage snailpacks, you will need to install Spack itself:
 TL;DR:
 
 #+begin_src sh
-  git clone -b v0.17.1 -c feature.manyFiles=true https://github.com/spack/spack.git ~/spack
+  git clone -c feature.manyFiles=true https://github.com/spack/spack.git ~/spack
 #+end_src
 
 Then in your ~.profile~ add:
