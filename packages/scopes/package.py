@@ -14,8 +14,12 @@ class Scopes(Package):
     maintainers = ['salotz']
 
     version('tip', revision='tip')
-    version('0.17',
+
+    version('0.18',
             preferred=True,
+            sha256='c4f16717c8eb7f8b3feb3aefdc3cddc25b0610e2216cb259ac544c7a39f8a326')
+
+    version('0.17',
             sha256='ca2f9c5248138fc4351a65b3c0e1c79cc3b41f64e43bd2b6b1d8b9590286fb32',
             )
 
@@ -23,8 +27,9 @@ class Scopes(Package):
 
     depends_on('genie', type='build')
 
-    depends_on('llvm@13.0.1 +all_targets', when='@tip')
-    depends_on('llvm@12.0.1 +all_targets', when='@0.17')
+    depends_on('llvm@13.0.1 targets=all', when='@tip')
+    depends_on('llvm@13.0.1 targets=all', when='@0.18')
+    depends_on('llvm@12.0.1 targets=all', when='@0.17')
 
     depends_on('spirv-tools')
     depends_on('spirv-cross')
