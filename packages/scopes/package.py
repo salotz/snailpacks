@@ -16,10 +16,11 @@ class Scopes(Package):
     version('tip', revision='tip')
 
     version('0.18',
-            preferred=True,
             sha256='c4f16717c8eb7f8b3feb3aefdc3cddc25b0610e2216cb259ac544c7a39f8a326')
 
     version('0.17',
+            # there are some build problems with 0.18 I still need to fix
+            preferred=True,
             sha256='ca2f9c5248138fc4351a65b3c0e1c79cc3b41f64e43bd2b6b1d8b9590286fb32',
             )
 
