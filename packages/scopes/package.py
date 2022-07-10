@@ -16,11 +16,10 @@ class Scopes(Package):
     version('tip', revision='tip')
 
     version('0.18',
+            preferred=True,
             sha256='c4f16717c8eb7f8b3feb3aefdc3cddc25b0610e2216cb259ac544c7a39f8a326')
 
     version('0.17',
-            # there are some build problems with 0.18 I still need to fix
-            preferred=True,
             sha256='ca2f9c5248138fc4351a65b3c0e1c79cc3b41f64e43bd2b6b1d8b9590286fb32',
             )
 
@@ -83,17 +82,26 @@ class Scopes(Package):
 
         # copy them into the build env lib folder. This will get
         # copied to the install prefix in the next section
-        sh.copytree(
-            clang_bridge_headers,
-            Path(".") / "lib" / "clang/include",
-        )
+
+        # the location for these changed so do this differently for different versions
+        if spec.satisfies("@0.18:") or spec.satisfies('@tip'):
+            sh.copytree(
+                clang_bridge_headers,
+                Path(".") / "lib" / "scopes/clang/include",
+            )
+
+        else:
+            sh.copytree(
+                clang_bridge_headers,
+                Path(".") / "lib" / "clang/include",
+            )
 
         # first move the `libscopesrt.so` file from bin, since it
         # should be in lib
-        sh.move(
-            Path(".") / "bin" / 'libscopesrt.so',
-            Path(".") / "lib" / 'libscopesrt.so',
-        )
+        # sh.move(
+        #     Path(".") / "bin" / 'libscopesrt.so',
+        #     Path(".") / "lib" / 'libscopesrt.so',
+        # )
 
         # then go ahead and copy all the folders over
         sh.copytree(
