@@ -16,15 +16,21 @@ class Scopes(Package):
     version('tip', revision='tip')
 
     version('0.18',
+            preferred=True,
             sha256='c4f16717c8eb7f8b3feb3aefdc3cddc25b0610e2216cb259ac544c7a39f8a326')
 
     version('0.17',
-            # there are some build problems with 0.18 I still need to fix
-            preferred=True,
             sha256='ca2f9c5248138fc4351a65b3c0e1c79cc3b41f64e43bd2b6b1d8b9590286fb32',
             )
 
     extendable = True
+
+    variant('build_type',
+            default='debug',
+            description='Type of build to generate, passed to "config={value}"',
+            values=('release', 'debug',),
+            multi=False,
+            )
 
     depends_on('genie', type='build')
 
@@ -69,7 +75,11 @@ class Scopes(Package):
         genie('gmake')
 
         # compile the code
-        make("-C", "build")
+        make(
+            "-C",
+            "build",
+            f"config={spec.variants['build_type'].value}",
+        )
 
         # Then we install the clang bridge which is used for bridging
         # to C
@@ -83,22 +93,35 @@ class Scopes(Package):
 
         # copy them into the build env lib folder. This will get
         # copied to the install prefix in the next section
-        sh.copytree(
-            clang_bridge_headers,
-            Path(".") / "lib" / "clang/include",
-        )
+
+        # the location for these changed so do this differently for different versions
+        if spec.satisfies("@0.18:") or spec.satisfies('@tip'):
+            sh.copytree(
+                clang_bridge_headers,
+                Path(".") / "lib" / "scopes/clang/include",
+            )
+
+        else:
+            sh.copytree(
+                clang_bridge_headers,
+                Path(".") / "lib" / "clang/include",
+            )
+
 
         # first move the `libscopesrt.so` file from bin, since it
-        # should be in lib
+        # should be in lib, in general
         sh.move(
             Path(".") / "bin" / 'libscopesrt.so',
             Path(".") / "lib" / 'libscopesrt.so',
         )
 
-        # then go ahead and copy all the folders over
-        sh.copytree(
-            Path(".") / "bin",
-            Path(prefix) / "bin",
+        # then go ahead and copy all the artifacts over
+
+        # only copy the scopes binary and the runtime library
+        os.makedirs(Path(prefix) / "bin")
+        sh.copy(
+            Path(".") / "bin" / "scopes",
+            Path(prefix) / "bin" / "scopes",
         )
 
         sh.copytree(
@@ -109,4 +132,10 @@ class Scopes(Package):
         sh.copytree(
             Path(".") / "include",
             Path(prefix) / "include",
+        )
+
+        # libscopesrt.so is expected to be in the same directory as
+        # scopes
+        (Path(prefix) / "bin/libscopesrt.so").symlink_to(
+            Path(prefix) / "lib/libscopesrt.so"
         )
