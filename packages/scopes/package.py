@@ -107,17 +107,21 @@ class Scopes(Package):
                 Path(".") / "lib" / "clang/include",
             )
 
-        # first move the `libscopesrt.so` file from bin, since it
-        # should be in lib
-        # sh.move(
-        #     Path(".") / "bin" / 'libscopesrt.so',
-        #     Path(".") / "lib" / 'libscopesrt.so',
-        # )
 
-        # then go ahead and copy all the folders over
-        sh.copytree(
-            Path(".") / "bin",
-            Path(prefix) / "bin",
+        # first move the `libscopesrt.so` file from bin, since it
+        # should be in lib, in general
+        sh.move(
+            Path(".") / "bin" / 'libscopesrt.so',
+            Path(".") / "lib" / 'libscopesrt.so',
+        )
+
+        # then go ahead and copy all the artifacts over
+
+        # only copy the scopes binary and the runtime library
+        os.makedirs(Path(prefix) / "bin")
+        sh.copy(
+            Path(".") / "bin" / "scopes",
+            Path(prefix) / "bin" / "scopes",
         )
 
         sh.copytree(
@@ -128,4 +132,10 @@ class Scopes(Package):
         sh.copytree(
             Path(".") / "include",
             Path(prefix) / "include",
+        )
+
+        # libscopesrt.so is expected to be in the same directory as
+        # scopes
+        (Path(prefix) / "bin/libscopesrt.so").symlink_to(
+            Path(prefix) / "lib/libscopesrt.so"
         )
