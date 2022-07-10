@@ -25,6 +25,13 @@ class Scopes(Package):
 
     extendable = True
 
+    variant('build_type',
+            default='debug',
+            description='Type of build to generate, passed to "config={value}"',
+            values=('release', 'debug',),
+            multi=False,
+            )
+
     depends_on('genie', type='build')
 
     depends_on('llvm@13.0.1 targets=all', when='@tip')
@@ -68,7 +75,11 @@ class Scopes(Package):
         genie('gmake')
 
         # compile the code
-        make("-C", "build")
+        make(
+            "-C",
+            "build",
+            f"config={spec.variants['build_type'].value}",
+        )
 
         # Then we install the clang bridge which is used for bridging
         # to C
