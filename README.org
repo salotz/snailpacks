@@ -9,6 +9,13 @@ in Spack parlance).
 
 ** Getting Started
 
+If you want to just run this to install spack locally with all the
+necessary configuration:
+
+#+begin_src sh
+  curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/salotz/snailpacks/master/bootstrap.sh | sh
+#+end_src
+
 *** Installing Spack
 
 To leverage snailpacks, you will need to install Spack itself:
@@ -102,7 +109,7 @@ installation:
 You should be able to see info on Scopes now:
 
 #+begin_src sh
-  spack install scopes
+  spack info scopes
 #+end_src
 
 
