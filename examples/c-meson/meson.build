@@ -10,7 +10,7 @@ executable(
 
     include_directories: '.spack-env/view/include',
 
-    # objects to link against
+    # objects to link against. Use the static ones.
     objects: ['.spack-env/view/lib/libchipmunk.a'],
     
     # chimpunk2d needs threads and this is the portable way to enable them

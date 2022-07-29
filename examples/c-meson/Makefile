@@ -1,4 +1,4 @@
-init:
+init: .spack-env
 	meson setup build
 .PHONY:
 
@@ -21,4 +21,5 @@ env: .spack-env
 clean:
 	rm -rf .spack-env
 	rm -f spack.lock
+	rm -rf build
 .PHONY: clean
