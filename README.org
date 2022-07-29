@@ -259,6 +259,18 @@ of libraries and headers.
 See the ~examples/scopes~ folder.
 
 
+*** C/C++ Programming
+
+You can also use Spack to install dependencies for your C/C++ projects
+as well.
+
+In the ~examples~ folder there are a couple of examples of how to
+configure different build systems to find the Spack installed
+files. Including:
+
+- [X] meson :: ~c-meson~
+- [X] premake :: ~c-premake~
+- [ ] genie :: ~c-genie~
 
 ** Developing Recipes
 
