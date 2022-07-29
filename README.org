@@ -270,7 +270,8 @@ files. Including:
 
 - [X] meson :: ~c-meson~
 - [X] premake :: ~c-premake~
-- [ ] genie :: ~c-genie~
+- [X] genie :: ~c-genie~
+- [ ] cmake :: ~c-cmake~
 
 ** Developing Recipes
 
