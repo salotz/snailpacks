@@ -1,0 +1,12 @@
+env = Environment(CPPPATH=".spack-env/view/include")
+
+env.Program(
+    'bin/demo',
+    'src/demo.c',
+    LIBS=[
+        'chipmunk',
+        'pthread',
+        'm',
+    ],
+    LIBPATH='.spack-env/view/lib',
+)
