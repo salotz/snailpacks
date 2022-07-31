@@ -271,7 +271,8 @@ files. Including:
 - [X] meson :: ~c-meson~
 - [X] premake :: ~c-premake~
 - [X] genie :: ~c-genie~
-- [ ] cmake :: ~c-cmake~
+- [X] cmake :: ~c-cmake~
+- [ ] SCons :: ~c-scons~
 
 ** Developing Recipes
 
