@@ -1,6 +1,6 @@
 
 
-# Using the Premake build system
+# Using the SCons build system
 
 Simple example of using snailpacks and Spack for writing code using
 some libraries installed via Spack.

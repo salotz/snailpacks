@@ -9,6 +9,9 @@ some libraries installed via Spack.
 # install dependencies via spack into local view
 make init
 
+# generate project files
+make configure
+
 # run the build
 make build
 
