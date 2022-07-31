@@ -272,7 +272,7 @@ files. Including:
 - [X] premake :: ~c-premake~
 - [X] genie :: ~c-genie~
 - [X] cmake :: ~c-cmake~
-- [ ] SCons :: ~c-scons~
+- [X] SCons :: ~c-scons~
 
 ** Developing Recipes
 
