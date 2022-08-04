@@ -11,7 +11,7 @@ build:
 .PHONY: build
 
 run:
-	(cd src && ../bin/triangle_x64_d)
+	(cd src && ../bin/triangle_x64_debug)
 .PHONY: run
 
 env: .spack-env
