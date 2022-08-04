@@ -27,14 +27,14 @@ class WebgpuHeaders(Package):
         # unfortunately many of the dependents require this
         prefix_path = Path(prefix)
 
-        (prefix_path / 'include').mkdir()
+        (prefix_path / 'include' / 'webgpu-headers').mkdir(parents=True)
         (prefix_path / 'share').mkdir()
 
         # copy this whole repo into share in case you have a
         # dependency which needs it done this way
         sh.copyfile(
             "./webgpu.h",
-            prefix_path / "include" / "webgpu.h"
+            prefix_path / "include" / "webgpu-headers" / "webgpu.h"
         )
 
         sh.copytree(

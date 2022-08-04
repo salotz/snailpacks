@@ -94,6 +94,7 @@ class WgpuNative(Package):
                     prefix_path / 'include' / 'wgpu.h'
                     )
 
+        (prefix_path / 'include' / 'webgpu-headers').mkdir()
         sh.copyfile(Path('.') / 'ffi' / 'webgpu-headers' / 'webgpu.h',
-                    prefix_path / 'include' / 'webgpu.h'
+                    prefix_path / 'include' / 'webgpu-headers' / 'webgpu.h'
                     )
