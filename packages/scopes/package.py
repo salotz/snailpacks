@@ -17,11 +17,11 @@ class Scopes(Package):
 
     version('0.18',
             preferred=True,
-            sha256='c4f16717c8eb7f8b3feb3aefdc3cddc25b0610e2216cb259ac544c7a39f8a326')
+            sha256='2ed2ac785f2f50b4d4c4b097b28b873d2421319ad35d686b0644f56d42adabf5'
+            )
 
     version('0.17',
-            sha256='ca2f9c5248138fc4351a65b3c0e1c79cc3b41f64e43bd2b6b1d8b9590286fb32',
-            )
+            sha256='c1102a70accc6c6678e30175eaac9da1c57febfb40c10fdef926462e058a7b52')
 
     extendable = True
 
