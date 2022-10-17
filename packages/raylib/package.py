@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from spack import *
 
 
@@ -80,3 +82,15 @@ class Raylib(CMakePackage):
         ]
 
         return options
+
+    def install(self, spec, prefix):
+
+        # run the normal install
+        super().install(spec, prefix)
+
+        # then symlink the lib64 directory if it exists (some compiler
+        # versions do this I guess)
+        prefix_path = Path(prefix)
+
+        if (prefix_path / 'lib64').exists() and not (prefix_path / 'lib').exists():
+            (prefix_path / 'lib').symlink_to(prefix_path / 'lib64')
